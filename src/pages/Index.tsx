@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Icon from '@/components/ui/icon';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -120,6 +120,15 @@ export default function Index() {
   const [searchQuery, setSearchQuery] = useState('');
   const [messages, setMessages] = useState<Record<number, Message[]>>(chatMessages);
   const [chats, setChats] = useState<Chat[]>(mockChats);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkMode]);
 
   const filteredChats = chats.filter(chat =>
     chat.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -432,7 +441,7 @@ export default function Index() {
                       <Label>Тёмная тема</Label>
                       <p className="text-sm text-muted-foreground">Использовать тёмное оформление</p>
                     </div>
-                    <Switch />
+                    <Switch checked={isDarkMode} onCheckedChange={setIsDarkMode} />
                   </div>
                 </div>
               </div>
