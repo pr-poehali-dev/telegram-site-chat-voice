@@ -34,14 +34,84 @@ const mockChats: Chat[] = [
   { id: 3, name: 'Мария Иванова', avatar: '', lastMessage: 'Спасибо за помощь!', time: '11:20', unread: 1, online: true },
   { id: 4, name: 'Дмитрий Козлов', avatar: '', lastMessage: 'Увидимся завтра', time: 'Вчера', unread: 0, online: false },
   { id: 5, name: 'Елена Сидорова', avatar: '', lastMessage: 'Отлично, договорились', time: 'Вчера', unread: 0, online: false },
+  { id: 6, name: 'Алексей Волков', avatar: '', lastMessage: 'Созвонимся в 3?', time: 'Вчера', unread: 3, online: true },
+  { id: 7, name: 'Ольга Новикова', avatar: '', lastMessage: 'Документы отправила', time: '2 дня назад', unread: 0, online: false },
+  { id: 8, name: 'Сергей Морозов', avatar: '', lastMessage: 'Жду ответа по проекту', time: '2 дня назад', unread: 1, online: false },
+  { id: 9, name: 'Татьяна Белова', avatar: '', lastMessage: 'До встречи!', time: '3 дня назад', unread: 0, online: true },
+  { id: 10, name: 'Николай Зайцев', avatar: '', lastMessage: 'Отличная идея 👍', time: '3 дня назад', unread: 0, online: false },
+  { id: 11, name: 'Виктория Лебедева', avatar: '', lastMessage: 'Можем обсудить детали?', time: '4 дня назад', unread: 2, online: true },
+  { id: 12, name: 'Павел Соколов', avatar: '', lastMessage: 'Презентация готова', time: '5 дней назад', unread: 0, online: false },
 ];
 
-const mockMessages: Message[] = [
-  { id: 1, text: 'Привет! Как дела?', time: '14:30', isOwn: false },
-  { id: 2, text: 'Привет! Всё отлично, спасибо!', time: '14:31', isOwn: true },
-  { id: 3, text: 'Как твой проект продвигается?', time: '14:32', isOwn: false },
-  { id: 4, text: '', time: '14:33', isOwn: true, isVoice: true, duration: '0:15' },
-];
+const chatMessages: Record<number, Message[]> = {
+  1: [
+    { id: 1, text: 'Привет! Как дела?', time: '14:30', isOwn: false },
+    { id: 2, text: 'Привет! Всё отлично, спасибо!', time: '14:31', isOwn: true },
+    { id: 3, text: 'Как твой проект продвигается?', time: '14:32', isOwn: false },
+    { id: 4, text: '', time: '14:33', isOwn: true, isVoice: true, duration: '0:15' },
+  ],
+  2: [
+    { id: 1, text: 'Привет, нужны документы по проекту', time: '13:00', isOwn: true },
+    { id: 2, text: 'Сейчас отправлю', time: '13:05', isOwn: false },
+    { id: 3, text: 'Отправил файлы', time: '13:15', isOwn: false },
+  ],
+  3: [
+    { id: 1, text: 'Мария, можешь помочь с отчетом?', time: '11:00', isOwn: true },
+    { id: 2, text: 'Конечно, что именно нужно?', time: '11:10', isOwn: false },
+    { id: 3, text: 'Проверить расчеты в таблице', time: '11:12', isOwn: true },
+    { id: 4, text: 'Всё проверила, там ошибка в формуле', time: '11:15', isOwn: false },
+    { id: 5, text: 'Спасибо за помощь!', time: '11:20', isOwn: false },
+  ],
+  4: [
+    { id: 1, text: 'Дима, завтра встреча в офисе', time: '16:30', isOwn: true },
+    { id: 2, text: 'Во сколько?', time: '16:35', isOwn: false },
+    { id: 3, text: 'В 10 утра', time: '16:36', isOwn: true },
+    { id: 4, text: 'Увидимся завтра', time: '16:40', isOwn: false },
+  ],
+  5: [
+    { id: 1, text: 'Елена, давайте обсудим условия', time: '15:00', isOwn: true },
+    { id: 2, text: 'Давайте, я готова', time: '15:05', isOwn: false },
+    { id: 3, text: 'Предлагаю встретиться в пятницу', time: '15:10', isOwn: true },
+    { id: 4, text: 'Отлично, договорились', time: '15:15', isOwn: false },
+  ],
+  6: [
+    { id: 1, text: 'Алексей, есть важный вопрос', time: '12:00', isOwn: true },
+    { id: 2, text: 'Слушаю', time: '12:05', isOwn: false },
+    { id: 3, text: 'Созвонимся в 3?', time: '12:07', isOwn: false },
+  ],
+  7: [
+    { id: 1, text: 'Ольга, когда будут документы?', time: '10:00', isOwn: true },
+    { id: 2, text: 'Сегодня до обеда отправлю', time: '10:30', isOwn: false },
+    { id: 3, text: 'Документы отправила', time: '14:00', isOwn: false },
+    { id: 4, text: 'Получил, спасибо!', time: '14:05', isOwn: true },
+  ],
+  8: [
+    { id: 1, text: 'Сергей, как продвигается разработка?', time: '09:00', isOwn: true },
+    { id: 2, text: 'Почти готово, осталось тестирование', time: '09:30', isOwn: false },
+    { id: 3, text: 'Жду ответа по проекту', time: '17:00', isOwn: false },
+  ],
+  9: [
+    { id: 1, text: 'Татьяна, встречаемся завтра?', time: '18:00', isOwn: true },
+    { id: 2, text: 'Да, в 2 часа у метро', time: '18:15', isOwn: false },
+    { id: 3, text: 'До встречи!', time: '18:20', isOwn: false },
+  ],
+  10: [
+    { id: 1, text: 'Николай, что думаешь о новой концепции?', time: '11:30', isOwn: true },
+    { id: 2, text: 'Очень интересно!', time: '11:45', isOwn: false },
+    { id: 3, text: 'Отличная идея 👍', time: '11:46', isOwn: false },
+  ],
+  11: [
+    { id: 1, text: 'Виктория, добрый день!', time: '13:00', isOwn: true },
+    { id: 2, text: 'Здравствуйте!', time: '13:10', isOwn: false },
+    { id: 3, text: 'Можем обсудить детали?', time: '13:12', isOwn: false },
+  ],
+  12: [
+    { id: 1, text: 'Павел, как презентация?', time: '16:00', isOwn: true },
+    { id: 2, text: 'Работаю над ней', time: '16:30', isOwn: false },
+    { id: 3, text: 'Презентация готова', time: '19:00', isOwn: false },
+    { id: 4, text: 'Отлично, жду!', time: '19:05', isOwn: true },
+  ],
+};
 
 export default function Index() {
   const [activeTab, setActiveTab] = useState<'chats' | 'profile' | 'settings'>('chats');
@@ -166,7 +236,7 @@ export default function Index() {
 
                 <ScrollArea className="flex-1 p-6">
                   <div className="space-y-4">
-                    {mockMessages.map((message) => (
+                    {(chatMessages[selectedChat.id] || []).map((message) => (
                       <div
                         key={message.id}
                         className={`flex ${message.isOwn ? 'justify-end' : 'justify-start'}`}
