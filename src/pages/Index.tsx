@@ -118,13 +118,36 @@ export default function Index() {
   const [selectedChat, setSelectedChat] = useState<Chat | null>(mockChats[0]);
   const [messageText, setMessageText] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
+  const [messages, setMessages] = useState<Record<number, Message[]>>(chatMessages);
+  const [chats, setChats] = useState<Chat[]>(mockChats);
 
-  const filteredChats = mockChats.filter(chat =>
+  const filteredChats = chats.filter(chat =>
     chat.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const sendMessage = () => {
-    if (messageText.trim()) {
+    if (messageText.trim() && selectedChat) {
+      const now = new Date();
+      const timeString = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
+      
+      const newMessage: Message = {
+        id: Date.now(),
+        text: messageText,
+        time: timeString,
+        isOwn: true,
+      };
+
+      setMessages(prev => ({
+        ...prev,
+        [selectedChat.id]: [...(prev[selectedChat.id] || []), newMessage],
+      }));
+
+      setChats(prev => prev.map(chat =>
+        chat.id === selectedChat.id
+          ? { ...chat, lastMessage: messageText, time: timeString }
+          : chat
+      ));
+
       setMessageText('');
     }
   };
@@ -236,7 +259,7 @@ export default function Index() {
 
                 <ScrollArea className="flex-1 p-6">
                   <div className="space-y-4">
-                    {(chatMessages[selectedChat.id] || []).map((message) => (
+                    {(messages[selectedChat.id] || []).map((message) => (
                       <div
                         key={message.id}
                         className={`flex ${message.isOwn ? 'justify-end' : 'justify-start'}`}
